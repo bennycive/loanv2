@@ -1,0 +1,15 @@
+/node_modules
+/public/PHPMailer
+
+# Ignore storage directory
+/storage/*
+
+# Except for the following subdirectories and files
+!/storage/app/
+!/storage/app/*
+!/storage/framework/
+!/storage/framework/*
+!/storage/logs/
+!/storage/logs/*.log
+
+/loanout.sql/

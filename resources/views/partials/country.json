@@ -1,0 +1,24 @@
+{
+
+  "TZ": {
+    "country": "Tanzania",
+    "dial_code": "255"
+  },
+  "KE": {
+    "country": "Kenya",
+    "dial_code": "254"
+  },
+  "UG": {
+    "country": "Uganda",
+    "dial_code": "256"
+  },
+  "RW": {
+    "country": "Rwanda",
+    "dial_code": "250"
+  },
+  "BI": {
+    "country": "Burundi",
+    "dial_code": "257"
+  }
+  
+}
