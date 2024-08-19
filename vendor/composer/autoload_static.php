@@ -1074,6 +1074,7 @@ class ComposerStaticInitac28c98650299c02fc119b817c60ebf3
         'App\\Rules\\FileTypeValidate' => __DIR__ . '/../..' . '/app/Rules/FileTypeValidate.php',
         'App\\Rules\\PhoneNumber' => __DIR__ . '/../..' . '/app/Rules/PhoneNumber.php',
         'App\\Rules\\PhoneValidator' => __DIR__ . '/../..' . '/app/Rules/PhoneValidator.php',
+        'App\\Services\\SmService' => __DIR__ . '/../..' . '/app/Services/SmService.php',
         'App\\Traits\\ApiQuery' => __DIR__ . '/../..' . '/app/Traits/ApiQuery.php',
         'App\\Traits\\GlobalStatus' => __DIR__ . '/../..' . '/app/Traits/GlobalStatus.php',
         'App\\Traits\\Searchable' => __DIR__ . '/../..' . '/app/Traits/Searchable.php',

@@ -399,7 +399,6 @@
             $('#attachmentType').on('change', function() {
                 const selectedType = $(this).val();
                 $('.attachment-fields').hide(); // Hide all fields initially
-
                 // Show the selected fields
                 if (selectedType === 'NIN') {
                     $('#ninFields').show();

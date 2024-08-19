@@ -212,6 +212,7 @@ return array(
     'App\\Rules\\FileTypeValidate' => $baseDir . '/app/Rules/FileTypeValidate.php',
     'App\\Rules\\PhoneNumber' => $baseDir . '/app/Rules/PhoneNumber.php',
     'App\\Rules\\PhoneValidator' => $baseDir . '/app/Rules/PhoneValidator.php',
+    'App\\Services\\SmService' => $baseDir . '/app/Services/SmService.php',
     'App\\Traits\\ApiQuery' => $baseDir . '/app/Traits/ApiQuery.php',
     'App\\Traits\\GlobalStatus' => $baseDir . '/app/Traits/GlobalStatus.php',
     'App\\Traits\\Searchable' => $baseDir . '/app/Traits/Searchable.php',
