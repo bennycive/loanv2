@@ -183,25 +183,44 @@
                 </div>
             </div>
         </div> --}}
-
         <div class="row gy-4 justify-content-center mt-8">
             <div class="col-10 col-md-10 col-sm-10 col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="profile-image-preview attachments-image">
-                            @if (!empty($user->image))
-                                <img src="{{ getImage(getFilePath('userProfile') . '/' . $user->image, null, true) }}"
-                                    alt="attachments">
-                            @else
-                                <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" alt="attachments">
+                        <!-- Display Card Type and Card Number -->
+                        <div class="mt-3">
+                            <h5>Attachment Type: {{ $attachment->attachment_type }}</h5>
+                            <h6>Number: {{ $attachment->nin_number }}</h6>
+
+                            <!-- Display Front Image -->
+                            @if (!empty($attachment->front_image))
+                                <div class="mt-3 mb-2">
+                                    <h6>Front Image:</h6>
+                                    <img src="{{ asset('storage/' . $attachment->front_image) }}" alt="Front Image"
+                                        class="img-fluid border border-success rounded"
+                                        style="max-width: 100%; height: auto;">
+
+                                </div>
+                            @endif
+
+                            <!-- Display Back Image -->
+                            @if (!empty($attachment->back_image))
+                                <div class="mt-3">
+                                    <h6>Back Image:</h6>
+                                    <img src="{{ asset('storage/' . $attachment->back_image) }}" alt="Back Image"
+                                      class="img-fluid border border-success rounded"
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             @endif
                         </div>
-                        <div class="mt-3">
-                            <h5 id="cardTypeDisplay">Selected Card Type: N/A</h5>
-                            <h6 id="cardNumberDisplay">Card Number: N/A</h6>
-                        </div>
+
+                        <h5 id="cardTypeDisplay">Selected Card Type: {{ $attachment->attachment_type ?? 'N/A' }}</h5>
+                        <h6 id="cardNumberDisplay">Card Number: {{ $attachment->card_number ?? 'N/A' }}</h6>
+
                     </div>
                 </div>
+
+
             </div>
 
             <div class="col-md-6 col-sm-10 col-lg-6">
@@ -227,16 +246,16 @@
                                 <div id="ninFields" class="col-lg-12 attachment-fields" style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter NIN Number')</label>
-                                        <input type="text" class="form-control form--control" name="card_number"
-                                            maxlength="20" plceholder="Eg. 1993120567050000443">
+                                        <input type="text" class="form-control form--control" name="nin_number"
+                                            maxlength="20" placeholder="Eg 199302126050000553">
                                     </div>
                                 </div>
 
                                 <div id="voterIdFields" class="col-lg-12 attachment-fields" style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter Voter ID Number')</label>
-                                        <input type="text" class="form-control form--control" name="card_number" plceholder="T-34567-1253-7893-45"
-                                            pattern="T-\d{5}-\d{4}-\d{4}-\d{2}">
+                                        <input type="text" class="form-control form--control" name="voter_id_number"
+                                            pattern="T-\d{5}-\d{4}-\d{4}-\d{2}" placeholder="T-12345-6789-1234-12">
                                     </div>
                                 </div>
 
@@ -244,11 +263,13 @@
                                     style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter License Number')</label>
-                                        <input type="text" class="form-control form--control" name="card_number" plceholder="Eg 567297697">
+                                        <input type="text" class="form-control form--control" name="license_number"
+                                            placeholder="Enter your license number">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter License Category')</label>
-                                        <input type="text" class="form-control form--control" name="license_category" placeholder="Eg . A,C,D">
+                                        <input type="text" class="form-control form--control" name="license_category"
+                                            placeholder="Enter your license category">
                                     </div>
                                 </div>
 
@@ -256,7 +277,7 @@
                                     <div class="form-group">
                                         <label class="form-label">@lang('Upload Front Image')</label>
                                         <input type="file" class="form-control form--control" name="front_image"
-                                            accept=".png, .jpg, .jpeg" required placeholder="front image">
+                                            accept=".png, .jpg, .jpeg" required>
                                     </div>
                                 </div>
 
@@ -264,7 +285,7 @@
                                     <div class="form-group">
                                         <label class="form-label">@lang('Upload Back Image')</label>
                                         <input type="file" class="form-control form--control" name="back_image"
-                                            accept=".png, .jpg, .jpeg" required placeholder="back image">
+                                            accept=".png, .jpg, .jpeg" required>
                                     </div>
                                 </div>
                             </div>
@@ -385,8 +406,8 @@
 @push('script')
     <script>
         (function($) {
-            "use strict";
 
+            "use strict";
             // Image upload and preview
             $("#imageUpload").on('change', function() {
                 if (this.files && this.files[0]) {
@@ -414,6 +435,8 @@
                 // Display card type and card number
                 $('#cardTypeDisplay').text(`Selected Card Type: ${selectedType}`);
                 $('#cardNumberDisplay').text('Card Number:');
+
+
             });
         })(jQuery);
     </script>

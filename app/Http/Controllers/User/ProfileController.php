@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Rules\FileTypeValidate;
+use App\Models\Attachment;
 
 class ProfileController extends Controller
 {
@@ -14,7 +15,10 @@ class ProfileController extends Controller
     {
         $pageTitle = "Profile Setting";
         $user = auth()->user();
-        return view($this->activeTemplate . 'user.profile_setting', compact('pageTitle', 'user'));
+         // Fetch attachments related to the user
+         $attachment = Attachment::where('user_id', $user->id)->first();
+
+        return view($this->activeTemplate . 'user.profile_setting', compact('pageTitle', 'user','attachment'));
     }
     public function submitProfile(Request $request)
     {
@@ -65,31 +69,7 @@ class ProfileController extends Controller
         return view($this->activeTemplate . 'user.password', compact('pageTitle'));
     }
 
-    // public function submitPassword(Request $request) {
-
-    //     $passwordValidation = Password::min(6);
-    //     if (gs('secure_password')) {
-    //         $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
-    //     }
-
-    //     $this->validate($request, [
-    //         'current_password' => 'required',
-    //         'password' => ['required', 'confirmed', $passwordValidation]
-    //     ]);
-
-    //     $user = auth()->user();
-    //     if (Hash::check($request->current_password, $user->password)) {
-    //         $password = Hash::make($request->password);
-    //         $user->password = $password;
-    //         $user->save();
-    //         $notify[] = ['success', 'Password changes successfully'];
-    //         return back()->withNotify($notify);
-    //     } else {
-    //         $notify[] = ['error', 'The password doesn\'t match!'];
-    //         return back()->withNotify($notify);
-    //     }
-    // }
-
+    
     public function submitPassword(Request $request)
     {
         $passwordValidation = Password::min(6);
