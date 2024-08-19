@@ -47,6 +47,23 @@
     color: hsl(var(--base)) !important;
 }
 
+/* =================================  personal id Start=========================== */
+
+.attachments-image {
+    width: 100%; /* Ensures the image width matches the container width */
+    height: auto; /* Maintains the aspect ratio of the image */
+    max-height: 100%; /* Prevents the image from exceeding the container height */
+    object-fit: cover; /* Ensures the image covers the container, cropping if necessary */
+    display: block; /* Ensures the image is displayed as a block-level element */
+    border-radius: 8px; /* Optional: Adds rounded corners to match card design */
+}
+
+
+/* =================================  personal id End=========================== */
+
+
+
+
 /* ================================= Tab Css End =========================== */
 /* pricing section css start */
 img {

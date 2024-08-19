@@ -6,7 +6,7 @@
                     <table class="table table--responsive--md">
                         <thead>
                             <tr>
-                                <th>@lang('S.N.')</th>
+                                <th>@lang('Serial Number')</th>
                                 <th>@lang('Installment Date')</th>
                                 <th>@lang('Given On')</th>
                                 <th>@lang('Delay')</th>
