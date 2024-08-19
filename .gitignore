@@ -12,4 +12,5 @@
 !/storage/logs/
 !/storage/logs/*.log
 
-/loanout.sql/
+/loanout.sql
+/documents.txt
