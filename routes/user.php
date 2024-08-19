@@ -24,6 +24,7 @@ Route::namespace('User\Auth')->name('user.')->group(function () {
         Route::get('code-verify', 'codeVerify')->name('code.verify');
         Route::post('verify-code', 'verifyCode')->name('verify.code');
     });
+    
     Route::controller('ResetPasswordController')->group(function () {
         Route::post('password/reset', 'reset')->name('password.update');
         Route::get('password/reset/{token}', 'showResetForm')->name('password.reset');
@@ -34,17 +35,17 @@ Route::namespace('User\Auth')->name('user.')->group(function () {
         Route::get('social-login/callback/{provider}', 'callback')->name('social.login.callback');
     });
 
-
     //  attachments controller
-    Route::controller(AttachmentController::class)->group(function () {
-        Route::get('attachments/create', 'create')->name('attachments.create'); // Show the form to create a new attachment
-        Route::post('attachments', 'store')->name('attachments.store'); // Store a new attachment
-        Route::get('attachments/{id}', 'show')->name('attachments.show'); // Display a specific attachment
-        Route::get('attachments/{id}/edit', 'edit')->name('attachments.edit'); // Show the form to edit an existing attachment
-        Route::put('attachments/{id}', 'update')->name('attachments.update'); // Update a specific attachment
-        Route::delete('attachments/{id}', 'destroy')->name('attachments.destroy'); // Delete a specific attachment
+    Route::controller('AttachmentController')->group(function () {
+        Route::get('attachments/create', 'create')->name('attachments.create');
+        Route::post('attachments', 'store')->name('attachments.store'); 
+        Route::get('attachments/{id}', 'show')->name('attachments.show'); 
+        Route::get('attachments/{id}/edit', 'edit')->name('attachments.edit'); 
+        Route::put('attachments/{id}', 'update')->name('attachments.update'); 
+        Route::delete('attachments/{id}', 'destroy')->name('attachments.destroy'); 
     });
-    
+
+
 });
 
 Route::middleware('auth')->name('user.')->group(function () {

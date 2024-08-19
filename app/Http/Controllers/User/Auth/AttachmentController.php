@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Attachment;
 
+
+
 class AttachmentController extends Controller
 {
-    // Show the form for creating a new attachment
-    public function create()
-    {
-        return view('attachments.create');
-    }
+    
 
     // Store a newly created attachment in storage
     public function store(Request $request)
     {
         $request->validate([
             'attachment_type' => 'required|string',
-            'card_number' => 'required|string|max:255',
+            'card_number' => 'nullable|string|max:255',
             'front_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'back_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $attachment = new Attachment();
+        $attachment->user_id = auth()->user()->id; // Set the user_id to the authenticated user
         $attachment->attachment_type = $request->input('attachment_type');
         $attachment->card_number = $request->input('card_number');
 
@@ -39,8 +39,10 @@ class AttachmentController extends Controller
 
         $attachment->save();
 
-        return redirect()->route('attachments.index')->with('success', 'Attachment saved successfully.');
+        $notify[] = ['success', 'Attachment saved successfully'];
+        return back()->withNotify($notify);
     }
+
 
     // Display the specified attachment
     public function show($id)
@@ -90,7 +92,9 @@ class AttachmentController extends Controller
 
         $attachment->save();
 
-        return redirect()->route('attachments.index')->with('success', 'Attachment updated successfully.');
+        $notify[] = ['success', 'Attachment saved successfully'];
+        return back()->withNotify($notify);
+
     }
 
     // Remove the specified attachment from storage

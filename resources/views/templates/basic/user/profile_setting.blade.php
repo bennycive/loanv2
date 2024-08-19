@@ -207,13 +207,15 @@
             <div class="col-md-6 col-sm-10 col-lg-6">
                 <div class="card custom--card">
                     <div class="card-body">
-                        <form class="register" action="" method="post" enctype="multipart/form-data">
+                        <form class="register" action="{{ route('user.attachments.store') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Select Attachment Type')</label>
-                                        <select id="attachmentType" class="form-control form--control" required>
+                                        <select id="attachmentType" class="form-control form--control"
+                                            name="attachment_type" required>
                                             <option value="" selected disabled>@lang('Choose...')</option>
                                             <option value="NIN">@lang('NIN ID')</option>
                                             <option value="VoterID">@lang('Voter ID')</option>
@@ -225,15 +227,15 @@
                                 <div id="ninFields" class="col-lg-12 attachment-fields" style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter NIN Number')</label>
-                                        <input type="text" class="form-control form--control" name="nin_number"
-                                            maxlength="20">
+                                        <input type="text" class="form-control form--control" name="card_number"
+                                            maxlength="20" plceholder="Eg. 1993120567050000443">
                                     </div>
                                 </div>
 
                                 <div id="voterIdFields" class="col-lg-12 attachment-fields" style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter Voter ID Number')</label>
-                                        <input type="text" class="form-control form--control" name="voter_id_number"
+                                        <input type="text" class="form-control form--control" name="card_number" plceholder="T-34567-1253-7893-45"
                                             pattern="T-\d{5}-\d{4}-\d{4}-\d{2}">
                                     </div>
                                 </div>
@@ -242,11 +244,11 @@
                                     style="display: none;">
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter License Number')</label>
-                                        <input type="text" class="form-control form--control" name="license_number">
+                                        <input type="text" class="form-control form--control" name="card_number" plceholder="Eg 567297697">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">@lang('Enter License Category')</label>
-                                        <input type="text" class="form-control form--control" name="license_category">
+                                        <input type="text" class="form-control form--control" name="license_category" placeholder="Eg . A,C,D">
                                     </div>
                                 </div>
 
@@ -254,7 +256,7 @@
                                     <div class="form-group">
                                         <label class="form-label">@lang('Upload Front Image')</label>
                                         <input type="file" class="form-control form--control" name="front_image"
-                                            accept=".png, .jpg, .jpeg" required>
+                                            accept=".png, .jpg, .jpeg" required placeholder="front image">
                                     </div>
                                 </div>
 
@@ -262,7 +264,7 @@
                                     <div class="form-group">
                                         <label class="form-label">@lang('Upload Back Image')</label>
                                         <input type="file" class="form-control form--control" name="back_image"
-                                            accept=".png, .jpg, .jpeg" required>
+                                            accept=".png, .jpg, .jpeg" required placeholder="back image">
                                     </div>
                                 </div>
                             </div>
@@ -270,6 +272,7 @@
                             <button type="submit" class="btn btn--base mt-3 w-100">@lang('Submit')</button>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -415,6 +418,3 @@
         })(jQuery);
     </script>
 @endpush
-
-
-
