@@ -185,37 +185,57 @@
         </div> --}}
         <div class="row gy-4 justify-content-center mt-8">
             <div class="col-10 col-md-10 col-sm-10 col-lg-6">
+
                 <div class="card">
                     <div class="card-body">
-                        <!-- Display Card Type and Card Number -->
-                        <div class="mt-3">
-                            <h5>Attachment Type: {{ $attachment->attachment_type }}</h5>
-                            <h6>Number: {{ $attachment->nin_number }}</h6>
+                        @if ($attachments->isNotEmpty())
+                            @foreach ($attachments as $attachment)
+                                <div class="card">
+                                    <div class="card-body">
+                                        <!-- Common Attachment Type -->
+                                        <h5>Attachment Type: {{ $attachment->attachment_type }}</h5>
 
-                            <!-- Display Front Image -->
-                            @if (!empty($attachment->front_image))
-                                <div class="mt-3 mb-2">
-                                    <h6>Front Image:</h6>
-                                    <img src="{{ asset('storage/' . $attachment->front_image) }}" alt="Front Image"
-                                        class="img-fluid border border-success rounded"
-                                        style="max-width: 100%; height: auto;">
+                                        <!-- NIN -->
+                                        @if ($attachment->attachment_type === 'NIN')
+                                            <h6>NIN Number: {{ $attachment->nin_number }}</h6>
+                                        @endif
 
+                                        <!-- Voter ID -->
+                                        @if ($attachment->attachment_type === 'VoterID')
+                                            <h6>Voter ID Number: {{ $attachment->voter_id_number }}</h6>
+                                        @endif
+
+                                        <!-- Driving License -->
+                                        @if ($attachment->attachment_type === 'DrivingLicense')
+                                            <h6>License Number: {{ $attachment->license_number }}</h6>
+                                            <h6>License Category: {{ $attachment->license_category }}</h6>
+                                        @endif
+
+                                        <!-- Display Front Image -->
+                                        @if (!empty($attachment->front_image))
+                                            <div class="mt-3 mb-2">
+                                                <h6>Front Image:</h6>
+                                                <img src="{{ asset('storage/' . $attachment->front_image) }}"
+                                                    alt="Front Image" class="img-fluid border border-success "
+                                                    style="max-width: 100%; height: auto; border-radius:10px;">
+                                            </div>
+                                        @endif
+
+                                        <!-- Display Back Image -->
+                                        @if (!empty($attachment->back_image))
+                                            <div class="mt-3">
+                                                <h6>Back Image:</h6>
+                                                <img src="{{ asset('storage/' . $attachment->back_image) }}"
+                                                    alt="Back Image" class="img-fluid border border-success"
+                                                    style="max-width: 100%; height: auto; border-radius:10px;">
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            @endif
-
-                            <!-- Display Back Image -->
-                            @if (!empty($attachment->back_image))
-                                <div class="mt-3">
-                                    <h6>Back Image:</h6>
-                                    <img src="{{ asset('storage/' . $attachment->back_image) }}" alt="Back Image"
-                                      class="img-fluid border border-success rounded"
-                                        style="max-width: 100%; height: auto;">
-                                </div>
-                            @endif
-                        </div>
-
-                        <h5 id="cardTypeDisplay">Selected Card Type: {{ $attachment->attachment_type ?? 'N/A' }}</h5>
-                        <h6 id="cardNumberDisplay">Card Number: {{ $attachment->card_number ?? 'N/A' }}</h6>
+                            @endforeach
+                        @else
+                            <p>No attachments available for this user.</p>
+                        @endif
 
                     </div>
                 </div>

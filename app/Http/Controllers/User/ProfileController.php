@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
+use App\Rules\FileTypeValidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use App\Rules\FileTypeValidate;
-use App\Models\Attachment;
 
 class ProfileController extends Controller
 {
@@ -15,24 +15,25 @@ class ProfileController extends Controller
     {
         $pageTitle = "Profile Setting";
         $user = auth()->user();
-         // Fetch attachments related to the user
-         $attachment = Attachment::where('user_id', $user->id)->first();
+        // Fetch attachments related to the user
+        $attachments = Attachment::where('user_id', $user->id)->get();
 
-        return view($this->activeTemplate . 'user.profile_setting', compact('pageTitle', 'user','attachment'));
+        
+        return view($this->activeTemplate . 'user.profile_setting', compact('pageTitle', 'user', 'attachments'));
     }
     public function submitProfile(Request $request)
     {
         $request->validate([
-            'firstname'   => 'required|string',
-            'lastname'    => 'required|string',
-            'address'     => 'nullable|string',
-            'state'       => 'nullable|string',
-            'zip'         => 'nullable|string',
-            'city'        => 'nullable|string',
-            'image'       => ['nullable', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])]
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'address' => 'nullable|string',
+            'state' => 'nullable|string',
+            'zip' => 'nullable|string',
+            'city' => 'nullable|string',
+            'image' => ['nullable', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
         ], [
             'firstname.required' => 'First name field is required',
-            'lastname.required'  => 'Last name field is required'
+            'lastname.required' => 'Last name field is required',
         ]);
 
         $user = auth()->user();
@@ -69,7 +70,6 @@ class ProfileController extends Controller
         return view($this->activeTemplate . 'user.password', compact('pageTitle'));
     }
 
-    
     public function submitPassword(Request $request)
     {
         $passwordValidation = Password::min(6);
@@ -80,7 +80,7 @@ class ProfileController extends Controller
         // Validate the request
         $request->validate([
             'current_password' => 'required',
-            'password' => ['required', 'confirmed', $passwordValidation]
+            'password' => ['required', 'confirmed', $passwordValidation],
         ]);
 
         $user = auth()->user();

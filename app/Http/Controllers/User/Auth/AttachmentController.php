@@ -56,6 +56,7 @@ class AttachmentController extends Controller
             'license_number' => 'nullable|string|unique:attachments,license_number',
             'front_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'back_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'license_category'=>'nullable|string:license_category'
         ]);
 
         $attachment = new Attachment();
@@ -63,6 +64,7 @@ class AttachmentController extends Controller
         $attachment->attachment_type = $request->input('attachment_type');
         $attachment->nin_number = $request->input('nin_number');
         $attachment->voter_id_number = $request->input('voter_id_number');
+        $attachment->license_category = $request->input('license_category');
         $attachment->license_number = $request->input('license_number');
         $attachment->card_number = $request->input('card_number');
 
