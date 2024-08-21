@@ -115,134 +115,117 @@
         </div>
 
         {{-- Attachments parts of the customer --}}
-        {{-- <div class="mb-4 pl-4">
+        <div class="mb-4 pl-4">
             <h3 class="mb-2 pl-8">@lang('Attachments')</h3>
         </div>
         <div class="row gy-4 justify-content-center mt-8">
             <div class="col-10 col-md-10 col-sm-10 col-lg-6">
+
                 <div class="card">
                     <div class="card-body">
-                        <div class="profile-image-preview attachments-image">
-                            @if (!empty($user->image))
-                                <img src="{{ getImage(getFilePath('userProfile') . '/' . $user->image, null, true) }}"
-                                    alt="attachments">
+                        <div class="accordion" id="attachmentsAccordion">
+                            @if ($attachments->isNotEmpty())
+                                @foreach ($attachments as $index => $attachment)
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ $index }}">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
+                                                aria-expanded="false" aria-controls="collapse{{ $index }}">
+                                                Attachment Type: {{ $attachment->attachment_type }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse{{ $index }}" class="accordion-collapse collapse"
+                                            aria-labelledby="heading{{ $index }}"
+                                            data-bs-parent="#attachmentsAccordion">
+                                            <div class="accordion-body">
+                                                <!-- NIN -->
+                                                @if ($attachment->attachment_type === 'NIN')
+                                                    <h6>NIN Number: {{ $attachment->nin_number }}</h6>
+                                                @endif
+
+                                                <!-- Voter ID -->
+                                                @if ($attachment->attachment_type === 'VoterID')
+                                                    <h6>Voter ID Number: {{ $attachment->voter_id_number }}</h6>
+                                                @endif
+
+                                                <!-- Driving License -->
+                                                @if ($attachment->attachment_type === 'DrivingLicense')
+                                                    <h6>License Number: {{ $attachment->license_number }}</h6>
+                                                    <h6>License Category: {{ $attachment->license_category }}</h6>
+                                                @endif
+
+                                                <!-- Display Front Image -->
+                                                @if (!empty($attachment->front_image))
+                                                    <div class="mt-3 mb-2" style="min-height:30px">
+                                                        <h6>Front Image:</h6>
+                                                        <img src="{{ asset('storage/' . $attachment->front_image) }}"
+                                                            alt="Front Image" class="img-fluid border border-success"
+                                                            style="max-width: 100%; height: auto; border-radius:10px;">
+                                                    </div>
+                                                @endif
+
+                                                <!-- Display Back Image -->
+                                                @if (!empty($attachment->back_image))
+                                                    <div class="mt-3">
+                                                        <h6>Back Image:</h6>
+                                                        <img src="{{ asset('storage/' . $attachment->back_image) }}"
+                                                            alt="Back Image" class="img-fluid border border-success"
+                                                            style="max-width: 100%; height: auto; border-radius:10px;">
+                                                    </div>
+                                                @endif
+
+                                                <!-- Delete Button -->
+                                                <button type="button" class="btn btn-lg btn-outline-danger mt-3" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $attachment->id }}">
+                                                    Delete
+                                                </button>
+
+                                                <!-- Delete Confirmation Modal -->
+                                                <div class="modal fade" id="deleteModal{{ $attachment->id }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="deleteModalLabel{{ $attachment->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="deleteModalLabel{{ $attachment->id }}">Confirm
+                                                                    Deletion</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to delete this attachment?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                <form
+                                                                    action="{{ route('user.attachments.destroy', $attachment->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Delete</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             @else
-                                <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" alt="attachments">
+                                <p>No attachments available for this user.</p>
                             @endif
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-6 col-sm-10 col-lg-6">
-                <div class="card custom--card">
-                    <div class="card-body">
-                        <form class="register" action="" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label">@lang('Attachment Type')</label>
-                                        <select class="form-control form--control" id="attachmentType"
-                                            name="attachment_type">
-                                            <option value="voter_id">@lang('Voter ID')</option>
-                                            <option value="nin_id">@lang('NIN ID')</option>
-                                            <option value="driving_license">@lang('Driving License')</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">@lang('Front of Card')</label>
-                                        <input class="form-control form--control" id="frontImageUpload"
-                                            name="front_image" type='file' accept=".png, .jpg, .jpeg" />
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">@lang('Back of Card')</label>
-                                        <input class="form-control form--control" id="backImageUpload" name="back_image"
-                                            type='file' accept=".png, .jpg, .jpeg" />
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label">@lang('Address')</label>
-                                        <input type="text" class="form-control form--control" name="address"
-                                            value="{{ @$user->address->address }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn--base mt-3 w-100">@lang('Submit')</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        <div class="row gy-4 justify-content-center mt-8">
-            <div class="col-10 col-md-10 col-sm-10 col-lg-6">
-
-                <div class="card">
-                    <div class="card-body">
-                        @if ($attachments->isNotEmpty())
-                            @foreach ($attachments as $attachment)
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- Common Attachment Type -->
-                                        <h5>Attachment Type: {{ $attachment->attachment_type }}</h5>
-
-                                        <!-- NIN -->
-                                        @if ($attachment->attachment_type === 'NIN')
-                                            <h6>NIN Number: {{ $attachment->nin_number }}</h6>
-                                        @endif
-
-                                        <!-- Voter ID -->
-                                        @if ($attachment->attachment_type === 'VoterID')
-                                            <h6>Voter ID Number: {{ $attachment->voter_id_number }}</h6>
-                                        @endif
-
-                                        <!-- Driving License -->
-                                        @if ($attachment->attachment_type === 'DrivingLicense')
-                                            <h6>License Number: {{ $attachment->license_number }}</h6>
-                                            <h6>License Category: {{ $attachment->license_category }}</h6>
-                                        @endif
-
-                                        <!-- Display Front Image -->
-                                        @if (!empty($attachment->front_image))
-                                            <div class="mt-3 mb-2">
-                                                <h6>Front Image:</h6>
-                                                <img src="{{ asset('storage/' . $attachment->front_image) }}"
-                                                    alt="Front Image" class="img-fluid border border-success "
-                                                    style="max-width: 100%; height: auto; border-radius:10px;">
-                                            </div>
-                                        @endif
-
-                                        <!-- Display Back Image -->
-                                        @if (!empty($attachment->back_image))
-                                            <div class="mt-3">
-                                                <h6>Back Image:</h6>
-                                                <img src="{{ asset('storage/' . $attachment->back_image) }}"
-                                                    alt="Back Image" class="img-fluid border border-success"
-                                                    style="max-width: 100%; height: auto; border-radius:10px;">
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <p>No attachments available for this user.</p>
-                        @endif
 
                     </div>
                 </div>
 
-
             </div>
-
             <div class="col-md-6 col-sm-10 col-lg-6">
                 <div class="card custom--card">
                     <div class="card-body">
