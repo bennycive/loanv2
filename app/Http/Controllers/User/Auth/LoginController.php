@@ -113,7 +113,7 @@ class LoginController extends Controller
         $userLogin->browser = $userAgent['browser'] ?? null;
         $userLogin->os = $userAgent['os_platform'] ?? null;
         $userLogin->user_ip = $ip;
-        $userLogin->user_mac = "null";
+        $userLogin->user_mac = null;
 
         // Log the userLogin details before saving
         Log::info('UserLogin details: ', $userLogin->toArray());
