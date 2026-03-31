@@ -128,15 +128,15 @@ class LoginController extends Controller
         return to_route('user.home');
     }
 
-    private function getMacAddress($ip)
-    {
-        exec("arp -a $ip", $output);
-        foreach ($output as $line) {
-            if (strpos($line, $ip) !== false) {
-                $parts = preg_split('/\s+/', trim($line));
-                return $parts[1] ?? 'MAC address not found';
-            }
-        }
-        return 'MAC address not found';
-    }
+    // private function getMacAddress($ip)
+    // {
+    //     exec("arp -a $ip", $output);
+    //     foreach ($output as $line) {
+    //         if (strpos($line, $ip) !== false) {
+    //             $parts = preg_split('/\s+/', trim($line));
+    //             return $parts[1] ?? 'MAC address not found';
+    //         }
+    //     }
+    //     return 'MAC address not found';
+    // }
 }
